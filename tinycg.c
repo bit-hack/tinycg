@@ -2,13 +2,13 @@
 
 #include "tinycg.h"
 
-
 static void cg_emit_data(struct cg_state_t *cg, const void *data, size_t size) {
   memcpy(cg->head, data, size);
   cg->head += size;
 }
 
-static void cg_modrm(struct cg_state_t *cg, uint32_t mod, uint32_t rm, uint32_t reg) {
+static void cg_modrm(struct cg_state_t *cg, uint32_t mod, uint32_t rm,
+                     uint32_t reg) {
   const uint8_t data = (mod << 6) | (rm << 3) | reg;
   cg_emit_data(cg, &data, 1);
 }
@@ -32,7 +32,8 @@ void cg_ret(struct cg_state_t *cg) {
   cg_emit_data(cg, "\xc3", 1);
 }
 
-void cg_mov_r32_r64disp(struct cg_state_t *cg, cg_r32_t r1, cg_r64_t base, int32_t disp) {
+void cg_mov_r32_r64disp(struct cg_state_t *cg, cg_r32_t r1, cg_r64_t base,
+                        int32_t disp) {
   if (disp >= -128 && disp < 127) {
     cg_emit_data(cg, "\x8b", 1);
     cg_modrm(cg, 1, r1, base);
@@ -46,7 +47,8 @@ void cg_mov_r32_r64disp(struct cg_state_t *cg, cg_r32_t r1, cg_r64_t base, int32
   }
 }
 
-void cg_mov_r64disp_r32(struct cg_state_t *cg, cg_r64_t base, int32_t disp, cg_r32_t r1) {
+void cg_mov_r64disp_r32(struct cg_state_t *cg, cg_r64_t base, int32_t disp,
+                        cg_r32_t r1) {
   if (disp >= -128 && disp < 127) {
     cg_emit_data(cg, "\x89", 1);
     cg_modrm(cg, 1, r1, base);
@@ -299,7 +301,8 @@ void cg_setcc_r8(struct cg_state_t *cg, cg_cc_t cc, cg_r8_t r1) {
   cg_modrm(cg, 3, 0, r1);
 }
 
-void cg_cmov_r32_r32(struct cg_state_t *cg, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2) {
+void cg_cmov_r32_r32(struct cg_state_t *cg, cg_cc_t cc, cg_r32_t r1,
+                     cg_r32_t r2) {
   cg_emit_data(cg, "\x0f", 1);
   const uint8_t op = 0x40 | (cc & 0xf);
   cg_emit_data(cg, &op, 1);
