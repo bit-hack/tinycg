@@ -632,6 +632,29 @@ static void test_case_52() {
   fprintf(stderr, "fail 'sub eax, 1024'\n");
 }
 
+static void test_cast_53() {
+  struct cg_state_t cg = { buffer, buffer };
+  cg_cmov_r32_r32(&cg, cg_cc_p, cg_r32_eax, cg_r32_edi);
+  const uint8_t ref[] = { 0x0F, 0x4A, 0xC7 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cmovp eax, edi'\n");
+}
+
+static void test_cast_54() {
+  struct cg_state_t cg = { buffer, buffer };
+  cg_cmov_r32_r32(&cg, cg_cc_no, cg_r32_esi, cg_r32_ebx);
+  const uint8_t ref[] = { 0x0F, 0x41, 0xF3 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cmovno esi, ebx'\n");
+}
 
 int main() {
   test_case_01();
@@ -686,5 +709,7 @@ int main() {
   test_case_50();
   test_case_51();
   test_case_52();
+  test_cast_53();
+  test_cast_54();
   return 0;
 }

@@ -298,3 +298,10 @@ void cg_setcc_r8(struct cg_state_t *cg, cg_cc_t cc, cg_r8_t r1) {
   cg_emit_data(cg, &op, 1);
   cg_modrm(cg, 3, 0, r1);
 }
+
+void cg_cmov_r32_r32(struct cg_state_t *cg, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2) {
+  cg_emit_data(cg, "\x0f", 1);
+  const uint8_t op = 0x40 | (cc & 0xf);
+  cg_emit_data(cg, &op, 1);
+  cg_modrm(cg, 3, r1, r2);
+}

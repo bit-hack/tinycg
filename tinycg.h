@@ -128,4 +128,6 @@ void cg_pop_r64(struct cg_state_t *, cg_r64_t r1);
 
 void cg_nop(struct cg_state_t *);
 
+void cg_cmov_r32_r32(struct cg_state_t *, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2);
+
 uint32_t cg_size(struct cg_state_t *);
