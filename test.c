@@ -633,7 +633,7 @@ static void test_case_52() {
   fprintf(stderr, "fail 'sub eax, 1024'\n");
 }
 
-static void test_cast_53() {
+static void test_case_53() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_cmov_r32_r32(&cg, cg_cc_p, cg_r32_eax, cg_r32_edi);
   const uint8_t ref[] = { 0x0F, 0x4A, 0xC7 };
@@ -645,7 +645,7 @@ static void test_cast_53() {
   fprintf(stderr, "fail 'cmovp eax, edi'\n");
 }
 
-static void test_cast_54() {
+static void test_case_54() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_cmov_r32_r32(&cg, cg_cc_no, cg_r32_esi, cg_r32_ebx);
   const uint8_t ref[] = { 0x0F, 0x41, 0xF3 };
@@ -657,7 +657,7 @@ static void test_cast_54() {
   fprintf(stderr, "fail 'cmovno esi, ebx'\n");
 }
 
-static void test_cast_55() {
+static void test_case_55() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64disp_r64(&cg, cg_r64_rsi, 32, cg_r64_rbx);
   const uint8_t ref[] = { 0x48, 0x89, 0x5E, 0x20 };
@@ -669,7 +669,7 @@ static void test_cast_55() {
   fprintf(stderr, "fail 'mov [rsi + 32], rbx'\n");
 }
 
-static void test_cast_56() {
+static void test_case_56() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64disp_r64(&cg, cg_r64_rdx, 1234, cg_r64_rcx);
   const uint8_t ref[] = { 0x48, 0x89, 0x8A, 0xD2, 0x04, 0x00, 0x00 };
@@ -681,7 +681,7 @@ static void test_cast_56() {
   fprintf(stderr, "fail 'mov [rdx + 1234], rcx'\n");
 }
 
-static void test_cast_57() {
+static void test_case_57() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_push_r64(&cg, cg_r64_rbp);
   const uint8_t ref[] = { 0x55 };
@@ -693,7 +693,7 @@ static void test_cast_57() {
   fprintf(stderr, "fail 'push rbp'\n");
 }
 
-static void test_cast_58() {
+static void test_case_58() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64disp_r64(&cg, cg_r64_rsp, 32, cg_r64_rsi);
   const uint8_t ref[] = { 0x48, 0x89, 0x74, 0x24, 0x20 };
@@ -705,7 +705,7 @@ static void test_cast_58() {
   fprintf(stderr, "fail 'mov [rsp + 32], rsi'\n");
 }
 
-static void test_cast_59() {
+static void test_case_59() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64disp_r32(&cg, cg_r64_rsp, 32, cg_r32_esi);
   const uint8_t ref[] = { 0x89, 0x74, 0x24, 0x20 };
@@ -717,7 +717,7 @@ static void test_cast_59() {
   fprintf(stderr, "fail 'mov [rsp + 32], esi'\n");
 }
 
-static void test_cast_60() {
+static void test_case_60() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r32_r64disp(&cg, cg_r32_edx, cg_r64_rsp, 32);
   const uint8_t ref[] = { 0x8B, 0x54, 0x24, 0x20 };
@@ -729,7 +729,7 @@ static void test_cast_60() {
   fprintf(stderr, "fail 'mov edx, [rsp + 32]'\n");
 }
 
-static void test_cast_61() {
+static void test_case_61() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64_r64disp(&cg, cg_r64_rsi, cg_r64_rsp, 32);
   const uint8_t ref[] = { 0x48, 0x8B, 0x74, 0x24, 0x20 };
@@ -741,7 +741,7 @@ static void test_cast_61() {
   fprintf(stderr, "fail 'mov rsi, [rsp + 32]'\n");
 }
 
-static void test_cast_62() {
+static void test_case_62() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64_r64disp(&cg, cg_r64_rsi, cg_r64_rsp, 726);
   const uint8_t ref[] = { 0x48, 0x8B, 0xB4, 0x24, 0xD6, 0x02, 0x00, 0x00 };
@@ -753,7 +753,7 @@ static void test_cast_62() {
   fprintf(stderr, "fail 'mov rsi, [rsp + 726]'\n");
 }
 
-static void test_cast_63() {
+static void test_case_63() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64_r64(&cg, cg_r64_rsp, cg_r64_rbp);
   const uint8_t ref[] = { 0x48, 0x89, 0xEC };
@@ -765,7 +765,7 @@ static void test_cast_63() {
   fprintf(stderr, "fail 'mov rsp, rbp'\n");
 }
 
-static void test_cast_64() {
+static void test_case_64() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_mov_r64_r64(&cg, cg_r64_rdx, cg_r64_rcx);
   const uint8_t ref[] = { 0x48, 0x89, 0xCA };
@@ -777,7 +777,19 @@ static void test_cast_64() {
   fprintf(stderr, "fail 'mov rdx, rcx'\n");
 }
 
-static void test_cast_bb1() {
+static void test_case_65() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r32_r64disp(&cg, cg_r32_edx, cg_r64_rsp, -512);
+  const uint8_t ref[] = { 0x8B, 0x94, 0x24, 0x00, 0xFE, 0xFF, 0xFF };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov edx, [rsp - 512]'\n");
+}
+
+static void test_case_bb1() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
 
   // push rbp
@@ -879,18 +891,19 @@ int main() {
   test_case_50();
   test_case_51();
   test_case_52();
-  test_cast_53();
-  test_cast_54();
-  test_cast_55();
-  test_cast_56();
-  test_cast_57();
-  test_cast_58();
-  test_cast_59();
-  test_cast_60();
-  test_cast_61();
-  test_cast_62();
-  test_cast_63();
-  test_cast_64();
-  test_cast_bb1();
+  test_case_53();
+  test_case_54();
+  test_case_55();
+  test_case_56();
+  test_case_57();
+  test_case_58();
+  test_case_59();
+  test_case_60();
+  test_case_61();
+  test_case_62();
+  test_case_63();
+  test_case_64();
+  test_case_65();
+  test_case_bb1();
   return 0;
 }
