@@ -60,6 +60,15 @@ enum {
   cg_r64_rbp,
   cg_r64_rsi,
   cg_r64_rdi,
+  // extended registers
+  cg_r64_r8,
+  cg_r64_r9,
+  cg_r64_r10,
+  cg_r64_r11,
+  cg_r64_r12,
+  cg_r64_r13,
+  cg_r64_r14,
+  cg_r64_r15,
 };
 
 enum cc_t {
@@ -101,6 +110,7 @@ void cg_reset(struct cg_state_t *);
 
 void cg_mov_r64_r64(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_mov_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_mov_r64_i32(struct cg_state_t *, cg_r32_t r1, int32_t imm);
 void cg_mov_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 
 void cg_ret(struct cg_state_t *);
