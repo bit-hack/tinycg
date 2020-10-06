@@ -799,6 +799,30 @@ static void test_case_65() {
   fprintf(stderr, "fail 'mov edx, [rsp - 512]'\n");
 }
 
+static void test_case_66() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64_i32(&cg, cg_r64_rsp, 64);
+  const uint8_t ref[] = { 0x48, 0x83, 0xEC, 0x40 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub rsp, 64'\n");
+}
+
+static void test_case_67() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64_i32(&cg, cg_r64_rsp, 640);
+  const uint8_t ref[] = { 0x48, 0x81, 0xEC, 0x80, 0x02, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub rsp, 640'\n");
+}
+
 static void test_case_bb1() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
 
@@ -914,6 +938,8 @@ int main() {
   test_case_63();
   test_case_64();
   test_case_65();
+  test_case_66();
+  test_case_67();
   test_case_bb1();
   return 0;
 }

@@ -127,6 +127,7 @@ void cg_add_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_and_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 void cg_and_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 
+void cg_sub_r64_i32(struct cg_state_t *, cg_r64_t r1, int32_t imm);
 void cg_sub_r32_i32(struct cg_state_t *, cg_r32_t r1, int32_t imm);
 void cg_sub_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 

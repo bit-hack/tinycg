@@ -183,6 +183,11 @@ void cg_and_r32_r32(struct cg_state_t *cg, cg_r32_t r1, cg_r32_t r2) {
   cg_modrm(cg, 3, r2, r1);
 }
 
+void cg_sub_r64_i32(struct cg_state_t *cg, cg_r64_t r1, int32_t imm) {
+  cg_emit_data(cg, "\x48", 1);
+  cg_sub_r32_i32(cg, r1, imm);
+}
+
 void cg_sub_r32_i32(struct cg_state_t *cg, cg_r32_t r1, int32_t imm) {
   if (imm >= -128 && imm <= 127) {
     cg_emit_data(cg, "\x83", 1);
