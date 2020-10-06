@@ -1,7 +1,18 @@
+// ___________.__              _________   ________
+// \__    ___/|__| ____ ___.__.\_   ___ \ /  _____/
+//   |    |   |  |/    <   |  |/    \  \//   \  ___
+//   |    |   |  |   |  \___  |\     \___\    \_\  \
+//   |____|   |__|___|  / ____| \______  /\______  /
+//  Tiny Code Gen X64 \/\/             \/        \/
+//
+//  https://github.com/bit-hack/tinycg
+//
+
 #include <assert.h>
 #include <string.h>
 
 #include "tinycg.h"
+
 
 static void cg_emit_data(struct cg_state_t *cg, const void *data, size_t size) {
   assert((cg->head + size) < cg->end);

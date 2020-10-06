@@ -1,5 +1,16 @@
+// ___________.__              _________   ________
+// \__    ___/|__| ____ ___.__.\_   ___ \ /  _____/
+//   |    |   |  |/    <   |  |/    \  \//   \  ___
+//   |    |   |  |   |  \___  |\     \___\    \_\  \
+//   |____|   |__|___|  / ____| \______  /\______  /
+//  Tiny Code Gen X64 \/\/             \/        \/
+//
+//  https://github.com/bit-hack/tinycg
+//
+
 #pragma once
 #include <stdint.h>
+
 
 typedef int cg_r8_t;
 typedef int cg_r16_t;
@@ -71,10 +82,22 @@ enum cc_t {
 };
 
 struct cg_state_t {
+  // the start address of the buffer
   uint8_t *start;
-  uint8_t *head;
+  // the end address of the buffer
   const uint8_t *end;
+  // the next writing location in the buffer
+  uint8_t *head;
 };
+
+// initalize the code generator
+void cg_init(struct cg_state_t *, uint8_t *start, uint8_t *end);
+
+// return number of bytes written to the code buffer
+uint32_t cg_size(struct cg_state_t *);
+
+// clear all bytes written to the code buffer
+void cg_reset(struct cg_state_t *);
 
 void cg_mov_r64_r64(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_mov_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
@@ -137,7 +160,3 @@ void cg_pop_r64(struct cg_state_t *, cg_r64_t r1);
 void cg_nop(struct cg_state_t *);
 
 void cg_cmov_r32_r32(struct cg_state_t *, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2);
-
-uint32_t cg_size(struct cg_state_t *);
-void cg_reset(struct cg_state_t *);
-void cg_init(struct cg_state_t *, uint8_t *start, uint8_t *end);
