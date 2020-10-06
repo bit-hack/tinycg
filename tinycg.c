@@ -67,9 +67,7 @@ void cg_mov_r64_i32(struct cg_state_t *cg, cg_r32_t r1, int32_t imm) {
 
 void cg_mov_r64disp_r64(struct cg_state_t *cg, cg_r64_t base, int32_t disp,
                         cg_r64_t r1) {
-  assert(r1   == (r1   & 0x7));
-  assert(base == (base & 0x7));
-  cg_emit_data(cg, "\x48", 1); // rex
+  cg_rex(cg, 1, r1 >= cg_r64_r8, 0, base >= cg_r64_r8);
   if (disp >= -128 && disp <= 127) {
     cg_emit_data(cg, "\x89", 1);
     cg_modrm(cg, 1, r1, base);
@@ -85,9 +83,7 @@ void cg_mov_r64disp_r64(struct cg_state_t *cg, cg_r64_t base, int32_t disp,
 
 void cg_mov_r64_r64disp(struct cg_state_t *cg, cg_r64_t base,
                         cg_r64_t r1, int32_t disp) {
-  assert(r1   == (r1   & 0x7));
-  assert(base == (base & 0x7));
-  cg_emit_data(cg, "\x48", 1); // rex
+  cg_rex(cg, 1, base >= cg_r64_r8, 0, r1 >= cg_r64_r8);
   if (disp >= -128 && disp <= 127) {
     cg_emit_data(cg, "\x8b", 1);
     cg_modrm(cg, 1, base, r1);
@@ -186,6 +182,17 @@ void cg_add_r32_i32(struct cg_state_t *cg, cg_r32_t r1, int32_t imm) {
 void cg_add_r32_r32(struct cg_state_t *cg, cg_r32_t r1, cg_r32_t r2) {
   cg_emit_data(cg, "\x01", 1);
   cg_modrm(cg, 3, r2, r1);
+}
+
+void cg_and_r8_i8(struct cg_state_t *cg, cg_r8_t r1, uint8_t imm) {
+  if (r1 == cg_r8_al) {
+    cg_emit_data(cg, "\x24", 1);
+  }
+  else {
+    cg_emit_data(cg, "\x80", 1);
+    cg_modrm(cg, 3, 4, r1);
+  }
+  cg_emit_data(cg, &imm, 1);
 }
 
 void cg_and_r32_i32(struct cg_state_t *cg, cg_r32_t r1, uint32_t imm) {
@@ -304,6 +311,12 @@ void cg_xor_r32_r32(struct cg_state_t *cg, cg_r32_t r1, cg_r32_t r2) {
   cg_modrm(cg, 3, r2, r1);
 }
 
+void cg_xor_r64_r64(struct cg_state_t *cg, cg_r64_t r1, cg_r64_t r2) {
+  cg_rex(cg, 1, r2 >= cg_r64_r8, 0, r1 >= cg_r64_r8);
+  cg_emit_data(cg, "\x31", 1);
+  cg_modrm(cg, 3, r2, r1);
+}
+
 void cg_or_r32_i32(struct cg_state_t *cg, cg_r32_t r1, uint32_t imm) {
   if (r1 == cg_r32_eax) {
     cg_emit_data(cg, "\x0d", 1);
@@ -317,6 +330,12 @@ void cg_or_r32_i32(struct cg_state_t *cg, cg_r32_t r1, uint32_t imm) {
 
 void cg_or_r32_r32(struct cg_state_t *cg, cg_r32_t r1, cg_r32_t r2) {
   cg_emit_data(cg, "\x09", 1);
+  cg_modrm(cg, 3, r2, r1);
+}
+
+void cg_cmp_r64_r64(struct cg_state_t *cg, cg_r64_t r1, cg_r64_t r2) {
+  cg_rex(cg, 1, r2 >= cg_r64_r8, 0, r1 >= cg_r64_r8);
+  cg_emit_data(cg, "\x39", 1);
   cg_modrm(cg, 3, r2, r1);
 }
 

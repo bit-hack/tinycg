@@ -930,6 +930,7 @@ static void test_case_76() {
   }
   fprintf(stderr, "fail 'add r10, 0x11'\n");
 }
+
 static void test_case_77() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
   cg_sub_r64_i32(&cg, cg_r64_r10, 0x11);
@@ -940,6 +941,150 @@ static void test_case_77() {
     }
   }
   fprintf(stderr, "fail 'sub r10, 0x11'\n");
+}
+
+static void test_case_78() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_r64(&cg, cg_r64_r8, 1, cg_r64_r10);
+  const uint8_t ref[] = { 0x4D, 0x89, 0x50, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov [r8 + 1], r10'\n");
+}
+
+static void test_case_79() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_r64(&cg, cg_r64_rax, 1, cg_r64_r10);
+  const uint8_t ref[] = { 0x4C, 0x89, 0x50, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov [rax + 1], r10'\n");
+}
+
+static void test_case_80() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_r64(&cg, cg_r64_r8, 1, cg_r64_rax);
+  const uint8_t ref[] = { 0x49, 0x89, 0x40, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov [r8 + 1], rax'\n");
+}
+
+static void test_case_81() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64_r64disp(&cg, cg_r64_r10, cg_r64_r8, 1);
+  const uint8_t ref[] = { 0x4D, 0x8B, 0x50, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov r10, [r8 + 1]'\n");
+}
+
+static void test_case_82() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64_r64disp(&cg, cg_r64_rax, cg_r64_r8, 1);
+  const uint8_t ref[] = { 0x49, 0x8B, 0x40, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov rax, [r8 + 1]'\n");
+}
+
+static void test_case_83() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64_r64disp(&cg, cg_r64_r10, cg_r64_rax, 1);
+  const uint8_t ref[] = { 0x4C, 0x8B, 0x50, 0x01 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov r10, [rax + 1]'\n");
+}
+
+static void test_case_84() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64_r64disp(&cg, cg_r64_r10, cg_r64_rax, 1234);
+  const uint8_t ref[] = { 0x4C, 0x8B, 0x90, 0xD2, 0x04, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov r10, [rax + 1234]'\n");
+}
+
+static void test_case_85() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_r64(&cg, cg_r64_r8, 1234, cg_r64_rax);
+  const uint8_t ref[] = { 0x49, 0x89, 0x80, 0xD2, 0x04, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov [r8 + 1234], rax'\n");
+}
+
+static void test_case_86() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_xor_r64_r64(&cg, cg_r64_r8, cg_r64_rax);
+  const uint8_t ref[] = { 0x49, 0x31, 0xC0 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'xor r8, rax'\n");
+}
+
+static void test_case_87() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_cmp_r64_r64(&cg, cg_r64_rsi, cg_r64_rdx);
+  const uint8_t ref[] = { 0x48, 0x39, 0xD6 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cmp rsi, rdx'\n");
+}
+
+static void test_case_88() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_and_r8_i8(&cg, cg_r8_al, 0x1f);
+  const uint8_t ref[] = { 0x24, 0x1F };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'and al, 0x1f'\n");
+}
+
+static void test_case_89() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_and_r8_i8(&cg, cg_r8_dl, 0x1f);
+  const uint8_t ref[] = { 0x80, 0xE2, 0x1F };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'and dl, 0x1f'\n");
 }
 
 static void test_case_bb1() {
@@ -1112,6 +1257,18 @@ int main() {
   test_case_75();
   test_case_76();
   test_case_77();
+  test_case_78();
+  test_case_79();
+  test_case_80();
+  test_case_81();
+  test_case_82();
+  test_case_83();
+  test_case_84();
+  test_case_85();
+  test_case_86();
+  test_case_87();
+  test_case_88();
+  test_case_89();
   test_case_bb1();
   test_case_bb2();
   return 0;
