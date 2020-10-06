@@ -73,8 +73,10 @@ enum cc_t {
 struct cg_state_t {
   uint8_t *start;
   uint8_t *head;
+  const uint8_t *end;
 };
 
+void cg_mov_r64_r64(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_mov_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_mov_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 
@@ -84,6 +86,10 @@ void cg_mov_r32_r64disp(struct cg_state_t *, cg_r32_t r1, cg_r64_t base,
                         int32_t disp);
 void cg_mov_r64disp_r32(struct cg_state_t *, cg_r64_t base, int32_t disp,
                         cg_r32_t r1);
+void cg_mov_r64_r64disp(struct cg_state_t *cg, cg_r64_t base, cg_r64_t r1,
+                        int32_t disp);
+void cg_mov_r64disp_r64(struct cg_state_t *, cg_r64_t base, int32_t disp,
+                        cg_r64_t r1);
 
 void cg_movsx_r32_r8(struct cg_state_t *, cg_r32_t r1, cg_r8_t r2);
 void cg_movsx_r32_r16(struct cg_state_t *, cg_r32_t r1, cg_r16_t r2);
@@ -133,3 +139,5 @@ void cg_nop(struct cg_state_t *);
 void cg_cmov_r32_r32(struct cg_state_t *, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2);
 
 uint32_t cg_size(struct cg_state_t *);
+void cg_reset(struct cg_state_t *);
+void cg_init(struct cg_state_t *, uint8_t *start, uint8_t *end);
