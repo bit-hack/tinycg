@@ -19,56 +19,56 @@ typedef int cg_r64_t;
 typedef int cg_cc_t;
 
 enum {
-  cg_r8_al,
-  cg_r8_cl,
-  cg_r8_dl,
-  cg_r8_bl,
-  cg_r8_ah,
-  cg_r8_ch,
-  cg_r8_dh,
-  cg_r8_bh,
+  cg_al,
+  cg_cl,
+  cg_dl,
+  cg_bl,
+  cg_ah,
+  cg_ch,
+  cg_dh,
+  cg_bh,
 };
 
 enum {
-  cg_r16_ax,
-  cg_r16_cx,
-  cg_r16_dx,
-  cg_r16_bx,
-  cg_r16_sp,
-  cg_r16_bp,
-  cg_r16_si,
-  cg_r16_di,
+  cg_ax,
+  cg_cx,
+  cg_dx,
+  cg_bx,
+  cg_sp,
+  cg_bp,
+  cg_si,
+  cg_di,
 };
 
 enum {
-  cg_r32_eax,
-  cg_r32_ecx,
-  cg_r32_edx,
-  cg_r32_ebx,
-  cg_r32_esp,
-  cg_r32_ebp,
-  cg_r32_esi,
-  cg_r32_edi,
+  cg_eax,
+  cg_ecx,
+  cg_edx,
+  cg_ebx,
+  cg_esp,
+  cg_ebp,
+  cg_esi,
+  cg_edi,
 };
 
 enum {
-  cg_r64_rax,
-  cg_r64_rcx,
-  cg_r64_rdx,
-  cg_r64_rbx,
-  cg_r64_rsp,
-  cg_r64_rbp,
-  cg_r64_rsi,
-  cg_r64_rdi,
+  cg_rax,
+  cg_rcx,
+  cg_rdx,
+  cg_rbx,
+  cg_rsp,
+  cg_rbp,
+  cg_rsi,
+  cg_rdi,
   // extended registers
-  cg_r64_r8,
-  cg_r64_r9,
-  cg_r64_r10,
-  cg_r64_r11,
-  cg_r64_r12,
-  cg_r64_r13,
-  cg_r64_r14,
-  cg_r64_r15,
+  cg_r8,
+  cg_r9,
+  cg_r10,
+  cg_r11,
+  cg_r12,
+  cg_r13,
+  cg_r14,
+  cg_r15,
 };
 
 enum cc_t {
@@ -174,3 +174,8 @@ void cg_pop_r64(struct cg_state_t *, cg_r64_t r1);
 void cg_nop(struct cg_state_t *);
 
 void cg_cmov_r32_r32(struct cg_state_t *, cg_cc_t cc, cg_r32_t r1, cg_r32_t r2);
+
+const char *cg_r64_str(cg_r32_t reg);
+const char *cg_r32_str(cg_r32_t reg);
+const char *cg_r16_str(cg_r32_t reg);
+const char *cg_r8_str(cg_r32_t reg);
