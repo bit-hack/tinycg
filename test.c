@@ -1087,6 +1087,186 @@ static void test_case_89() {
   fprintf(stderr, "fail 'and dl, 0x1f'\n");
 }
 
+static void test_case_90() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x10, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_91() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movss_r64disp_xmm(&cg, cg_rsi, 0x11223344, cg_xmm0);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x11, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movss [rsi + 0x11223344], xmm0'\n");
+}
+
+static void test_case_92() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_addss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x58, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'addss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_93() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_subss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x5C, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'subss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_94() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mulss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x59, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mulss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_95() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_divss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x5E, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'divss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_96() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sqrtss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x51, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sqrtss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_97() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_cvttss2si_r32_r64disp(&cg, cg_eax, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x2C, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cvttss2si eax, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_98() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_cvtsi2ss_xmm_r64disp(&cg, cg_xmm0, cg_rsi, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x2A, 0x86, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cvtsi2ss xmm0, [rsi + 0x11223344]'\n");
+}
+
+static void test_case_99() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r32_xmm(&cg, cg_eax, cg_xmm0);
+  const uint8_t ref[] = { 0x66, 0x0F, 0x7E, 0xC0 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movd eax, xmm0'\n");
+}
+
+static void test_case_100() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_xmm_r32(&cg, cg_xmm0, cg_eax);
+  const uint8_t ref[] = { 0x66, 0x0F, 0x6E, 0xC0 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movd xmm0, eax'\n");
+}
+
+static void test_case_101() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r32_xmm(&cg, cg_esi, cg_xmm5);
+  const uint8_t ref[] = { 0x66, 0x0F, 0x7E, 0xEE };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movd esi, xmm5'\n");
+}
+
+static void test_case_102() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_xmm_r32(&cg, cg_xmm4, cg_ebx);
+  const uint8_t ref[] = { 0x66, 0x0F, 0x6E, 0xE3 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movd xmm4, ebx'\n");
+}
+
+static void test_case_103() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_cvtsi2ss_xmm_r64disp(&cg, cg_xmm3, cg_rbx, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x2A, 0x9B, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cvtsi2ss xmm3, dword ptr [rbx + 0x11223344]'\n");
+}
+
+static void test_case_104() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_cvttss2si_r32_r64disp(&cg, cg_ebx, cg_rcx, 0x11223344);
+  const uint8_t ref[] = { 0xF3, 0x0F, 0x2C, 0x99, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'cvttss2si ebx, dword ptr [rcx + 0x11223344]'\n");
+}
+
 static void test_case_bb1() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
 
@@ -1269,7 +1449,24 @@ int main() {
   test_case_87();
   test_case_88();
   test_case_89();
+  test_case_90();
+  test_case_91();
+  test_case_92();
+  test_case_93();
+  test_case_94();
+  test_case_95();
+  test_case_96();
+  test_case_97();
+  test_case_98();
+  test_case_99();
+  test_case_100();
+  test_case_101();
+  test_case_102();
+  test_case_103();
+  test_case_104();
+
   test_case_bb1();
   test_case_bb2();
+
   return 0;
 }
