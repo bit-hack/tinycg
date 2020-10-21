@@ -1267,6 +1267,283 @@ static void test_case_104() {
   fprintf(stderr, "fail 'cvttss2si ebx, dword ptr [rcx + 0x11223344]'\n");
 }
 
+static void test_case_105() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_i32(&cg, cg_rsi, 0x58, 0x11223344);
+  const uint8_t ref[] = { 0xC7, 0x46, 0x58, 0x44, 0x33, 0x22, 0x11 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov dword ptr [rsi + 0x58], 0x11223344'\n");
+}
+
+static void test_case_106() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mov_r64disp_i32(&cg, cg_rcx, 0xcafe, 0xbabe);
+  const uint8_t ref[] = { 0xC7, 0x81, 0xFE, 0xCA, 0x00, 0x00, 0xBE, 0xBA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mov dword ptr [rcx + 0xcafe], 0xbabe'\n");
+}
+
+static void test_case_107() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r32(&cg, cg_r8, cg_ebx);
+  const uint8_t ref[] = { 0x4C, 0x63, 0xC3 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx r8, ebx'\n");
+}
+
+static void test_case_108() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r32(&cg, cg_rdi, cg_ecx);
+  const uint8_t ref[] = { 0x48, 0x63, 0xF9 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx rdi, ecx'\n");
+}
+
+static void test_case_109() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r32(&cg, cg_r11, cg_edi);
+  const uint8_t ref[] = { 0x4C, 0x63, 0xDF };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx r11, edi'\n");
+}
+
+static void test_case_110() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r64disp(&cg, cg_r8, cg_rsi, 0xcafe);
+  const uint8_t ref[] = { 0x4C, 0x63, 0x86, 0xFE, 0xCA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx r8, dword ptr [rsi + 0xcafe]'\n");
+}
+
+static void test_case_111() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r64disp(&cg, cg_rdi, cg_rcx, 0xcafe);
+  const uint8_t ref[] = { 0x48, 0x63, 0xB9, 0xFE, 0xCA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx rdi, dword ptr [rcx + 0xcafe]'\n");
+}
+
+static void test_case_112() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_movsx_r64_r64disp(&cg, cg_rdi, cg_rcx, 12);
+  const uint8_t ref[] = { 0x48, 0x63, 0x79, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'movsx rdi, dword ptr [rcx + 12]'\n");
+}
+
+static void test_case_113() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_add_r64disp_i32(&cg, cg_rsi, 0xcafe, 0xbabe);
+  const uint8_t ref[] = { 0x81, 0x86, 0xFE, 0xCA, 0x00, 0x00, 0xBE, 0xBA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'add dword ptr [rsi + 0xcafe], 0xbabe'\n");
+}
+
+static void test_case_114() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_add_r64disp_i32(&cg, cg_rbx, 12, 0xbabe);
+  const uint8_t ref[] = { 0x81, 0x43, 0x0C, 0xBE, 0xBA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'add dword ptr [rbx + 12], 0xbabe'\n");
+}
+
+static void test_case_115() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64disp_i32(&cg, cg_rsi, 0xcafe, 0xbabe);
+  const uint8_t ref[] = { 0x81, 0xAE, 0xFE, 0xCA, 0x00, 0x00, 0xBE, 0xBA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub dword ptr [rsi + 0xcafe], 0xbabe'\n");
+}
+
+static void test_case_116() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64disp_i32(&cg, cg_rbx, 12, 0xbabe);
+  const uint8_t ref[] = { 0x81, 0x6B, 0x0C, 0xBE, 0xBA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub dword ptr [rbx + 12], 0xbabe'\n");
+}
+
+static void test_case_117() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64disp_i32(&cg, cg_rbx, 0xcafe, 12);
+  const uint8_t ref[] = { 0x83, 0xAB, 0xFE, 0xCA, 0x00, 0x00, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub dword ptr [rbx + 0xcafe], 12'\n");
+}
+
+static void test_case_118() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_sub_r64disp_i32(&cg, cg_rbx, 19, 12);
+  const uint8_t ref[] = { 0x83, 0x6B, 0x13, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'sub dword ptr [rbx + 19], 12'\n");
+}
+
+static void test_case_119() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_and_r64disp_i32(&cg, cg_rbx, 19, 12);
+  const uint8_t ref[] = { 0x83, 0x63, 0x13, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'and dword ptr [rbx + 19], 12'\n");
+}
+
+static void test_case_120() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_or_r64disp_i32(&cg, cg_rbx, 19, 12);
+  const uint8_t ref[] = { 0x83, 0x4B, 0x13, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'or dword ptr [rbx + 19], 12'\n");
+}
+
+static void test_case_121() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_xor_r64disp_i32(&cg, cg_rbx, 19, 12);
+  const uint8_t ref[] = { 0x83, 0x73, 0x13, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'xor dword ptr [rbx + 19], 12'\n");
+}
+
+static void test_case_122() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_shl_r64disp_i8(&cg, cg_rbx, 19, 12);
+  const uint8_t ref[] = { 0xC1, 0x63, 0x13, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'shl dword ptr [rbx + 19], 12'\n");
+}
+
+static void test_case_123() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_shl_r64disp_i8(&cg, cg_rdx, 0xcafe, 12);
+  const uint8_t ref[] = { 0xC1, 0xA2, 0xFE, 0xCA, 0x00, 0x00, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'shl dword ptr [rdx + 0xcafe], 12'\n");
+}
+
+static void test_case_124() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_imul_r64disp(&cg, cg_rsi, 0xcafe);
+  const uint8_t ref[] = { 0xF7, 0xAE, 0xFE, 0xCA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'imul dword ptr [rsi + 0xcafe]'\n");
+}
+
+static void test_case_125() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_imul_r64disp(&cg, cg_rsi, 12);
+  const uint8_t ref[] = { 0xF7, 0x6E, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'imul dword ptr [rsi + 0xcafe]'\n");
+}
+
+static void test_case_126() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mul_r64disp(&cg, cg_rsi, 0xcafe);
+  const uint8_t ref[] = { 0xF7, 0xA6, 0xFE, 0xCA, 0x00, 0x00 };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mul dword ptr [rsi + 0xcafe]'\n");
+}
+
+static void test_case_127() {
+  cg_init(&cg, buffer, buffer + sizeof(buffer));
+  cg_mul_r64disp(&cg, cg_rsi, 12);
+  const uint8_t ref[] = { 0xF7, 0x66, 0x0C };
+  if (cg_size(&cg) == sizeof(ref)) {
+    if (0 == memcmp(ref, buffer, cg_size(&cg))) {
+      return;
+    }
+  }
+  fprintf(stderr, "fail 'mul dword ptr [rsi + 0xcafe]'\n");
+}
+
+
 static void test_case_bb1() {
   cg_init(&cg, buffer, buffer + sizeof(buffer));
 
@@ -1464,6 +1741,29 @@ int main() {
   test_case_102();
   test_case_103();
   test_case_104();
+  test_case_105();
+  test_case_106();
+  test_case_107();
+  test_case_108();
+  test_case_109();
+  test_case_110();
+  test_case_111();
+  test_case_112();
+  test_case_113();
+  test_case_114();
+  test_case_115();
+  test_case_116();
+  test_case_117();
+  test_case_118();
+  test_case_119();
+  test_case_120();
+  test_case_121();
+  test_case_122();
+  test_case_123();
+  test_case_124();
+  test_case_125();
+  test_case_126();
+  test_case_127();
 
   test_case_bb1();
   test_case_bb2();

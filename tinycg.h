@@ -120,9 +120,9 @@ uint32_t cg_size(struct cg_state_t *);
 // clear all bytes written to the code buffer
 void cg_reset(struct cg_state_t *);
 
-void cg_mov_r64_r64(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_mov_r64_r64(struct cg_state_t *, cg_r64_t r1, cg_r64_t r2);
 void cg_mov_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
-void cg_mov_r64_i32(struct cg_state_t *, cg_r32_t r1, int32_t imm);
+void cg_mov_r64_i32(struct cg_state_t *, cg_r64_t r1, int32_t imm);
 void cg_mov_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 
 void cg_ret(struct cg_state_t *);
@@ -131,9 +131,12 @@ void cg_mov_r32_r64disp(struct cg_state_t *, cg_r32_t r1, cg_r64_t base, int32_t
 void cg_mov_r64disp_r32(struct cg_state_t *, cg_r64_t base, int32_t disp, cg_r32_t r1);
 void cg_mov_r64_r64disp(struct cg_state_t *, cg_r64_t base, cg_r64_t r1, int32_t disp);
 void cg_mov_r64disp_r64(struct cg_state_t *, cg_r64_t base, int32_t disp, cg_r64_t r1);
+void cg_mov_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t disp, int32_t imm);
 
 void cg_movsx_r32_r8(struct cg_state_t *, cg_r32_t r1, cg_r8_t r2);
 void cg_movsx_r32_r16(struct cg_state_t *, cg_r32_t r1, cg_r16_t r2);
+void cg_movsx_r64_r32(struct cg_state_t *, cg_r64_t dst, cg_r32_t src);
+void cg_movsx_r64_r64disp(struct cg_state_t *cg, cg_r32_t dst, cg_r64_t base, int32_t disp);
 
 void cg_movzx_r32_r8(struct cg_state_t *, cg_r32_t r1, cg_r8_t r2);
 void cg_movzx_r32_r16(struct cg_state_t *, cg_r32_t r1, cg_r16_t r2);
@@ -141,40 +144,54 @@ void cg_movzx_r32_r16(struct cg_state_t *, cg_r32_t r1, cg_r16_t r2);
 void cg_add_r64_i32(struct cg_state_t *, cg_r64_t t1, int32_t imm);
 void cg_add_r32_i32(struct cg_state_t *, cg_r32_t r1, int32_t imm);
 void cg_add_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_add_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t offset, int32_t imm);
+void cg_add_r64disp_r32(struct cg_state_t *, cg_r64_t base, int32_t offset, cg_r32_t src);
 
 void cg_and_r8_i8(struct cg_state_t *, cg_r8_t r1, uint8_t imm);
 void cg_and_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 void cg_and_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_and_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t offset, int32_t imm);
 
 void cg_sub_r64_i32(struct cg_state_t *, cg_r64_t r1, int32_t imm);
 void cg_sub_r32_i32(struct cg_state_t *, cg_r32_t r1, int32_t imm);
 void cg_sub_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_sub_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t offset, int32_t imm);
 
 void cg_shl_r32_i8(struct cg_state_t *, cg_r32_t r1, uint8_t imm);
 void cg_shl_r32_cl(struct cg_state_t *, cg_r32_t r1);
+void cg_shl_r64disp_i8(struct cg_state_t *, cg_r64_t base, int32_t offset, uint8_t imm);
 
 void cg_sar_r32_i8(struct cg_state_t *, cg_r32_t r1, uint8_t imm);
 void cg_sar_r32_cl(struct cg_state_t *, cg_r32_t r1);
+void cg_sar_r64disp_i8(struct cg_state_t *, cg_r64_t base, int32_t offset, uint8_t imm);
 
 void cg_shr_r32_i8(struct cg_state_t *, cg_r32_t r1, uint8_t imm);
 void cg_shr_r32_cl(struct cg_state_t *, cg_r32_t r1);
+void cg_shr_r64disp_i8(struct cg_state_t *, cg_r64_t base, int32_t offset, uint8_t imm);
 
 void cg_xor_r64_r64(struct cg_state_t *, cg_r64_t r1, cg_r64_t r2);
 void cg_xor_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 void cg_xor_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_xor_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t offset, int32_t imm);
 
 void cg_or_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
 void cg_or_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
+void cg_or_r64disp_i32(struct cg_state_t *, cg_r64_t base, int32_t offset, int32_t imm);
+
 void cg_setcc_r8(struct cg_state_t *, cg_cc_t cc, cg_r8_t r1);
 
 void cg_cmp_r64_r64(struct cg_state_t *, cg_r64_t r1, cg_r64_t r2);
 void cg_cmp_r32_r32(struct cg_state_t *, cg_r32_t r1, cg_r32_t r2);
 void cg_cmp_r32_i32(struct cg_state_t *, cg_r32_t r1, uint32_t imm);
+void cg_cmp_r32_r64disp(struct cg_state_t *, cg_r32_t r1, cg_r64_t base, int32_t offset);
+void cg_cmp_r64disp_r32(struct cg_state_t *, cg_r64_t base, int32_t offset, cg_r32_t r1);
 
 void cg_call_r64disp(struct cg_state_t *, cg_r64_t base, int32_t disp32);
 
 void cg_mul_r32(struct cg_state_t *, cg_r32_t r1);
+void cg_mul_r64disp(struct cg_state_t *, cg_r64_t base, int32_t offset);
 void cg_imul_r32(struct cg_state_t *, cg_r32_t r1);
+void cg_imul_r64disp(struct cg_state_t *, cg_r64_t base, int32_t offset);
 
 void cg_push_r64(struct cg_state_t *, cg_r64_t r1);
 void cg_pop_r64(struct cg_state_t *, cg_r64_t r1);
