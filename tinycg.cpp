@@ -144,6 +144,18 @@ void asm_x64_t::add(r32_t dst, int32_t src) {
   }
 }
 
+void asm_x64_t::add(r32_t dst, const deref_t &src) {
+  // todo
+}
+
+void asm_x64_t::add(const deref_t &dst, r32_t src) {
+  // todo
+}
+
+void asm_x64_t::add(const deref_t &dst, int32_t src) {
+  // todo
+}
+
 void asm_x64_t::nop() {
   emit("\x90", 1);
 }

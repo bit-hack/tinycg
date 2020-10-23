@@ -219,6 +219,48 @@ void test_add() {
     const uint8_t ref[] = { 0x83, 0xC0, 0x00 };
     CHECK();
   }
+  {
+    cg.clear();
+    cg.add(eax, deref_t{ rsi });
+    const uint8_t ref[] = { 0x03, 0x06 };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(eax, deref_t{ rsi, 12 });
+    const uint8_t ref[] = { 0x03, 0x46, 0x0C };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(eax, deref_t{ rsi, 1024 });
+    const uint8_t ref[] = { 0x03, 0x86, 0x00, 0x04, 0x00, 0x00 };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(deref_t{ r8 }, eax);
+    const uint8_t ref[] = { 0x41, 0x01, 0x00 };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(deref_t{ rsi, 12 }, ebx);
+    const uint8_t ref[] = { 0x01, 0x5E, 0x0C };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(deref_t{ r10, 1024 }, edi);
+    const uint8_t ref[] = { 0x41, 0x01, 0xBA, 0x00, 0x04, 0x00, 0x00 };
+    CHECK();
+  }
+  {
+    cg.clear();
+    cg.add(deref_t{ rsi, 0xcafe }, ebx);
+    const uint8_t ref[] = { 0x81, 0x46, 0x0C, 0xFE, 0xCA, 0x00, 0x00 };
+    CHECK();
+  }
 }
 
 int main(int argc, char **args) {
